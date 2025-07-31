@@ -57,7 +57,7 @@ Navigate to `http://localhost:5000`
 ---
 ## 📹 Demo Video
 
-https://github.com/misel09/smart_cart/assets/smart_cart.mp4
+https://github.com/misel09/smart_cart/blob/main/assets/smart_cart.mp4
 
 ---
 
