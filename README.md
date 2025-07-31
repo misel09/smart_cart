@@ -90,4 +90,3 @@ Navigate to `http://localhost:5000`
 ---
 
 Happy Scraping! 🕷️
-# smart_cart
