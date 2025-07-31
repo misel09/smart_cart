@@ -55,15 +55,9 @@ python app.py
 Navigate to `http://localhost:5000`
 
 ---
+## 📹 Demo Video
 
-## 📸 Screenshots
-</div>
-
-<div align="center">
-  <img src="screenshots/result.png" width="600" />
-  <br />
-  <b>Comparison Results</b>
-</div>
+https://github.com/misel09/smart_cart/assets/smart_cart.mp4
 
 ---
 
