@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartCart</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f7f8fa;
+            margin: 0;
+        }
+        .topbar {
+            display: flex;
+            align-items: center;
+            padding: 18px 40px 12px 40px;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            gap: 32px;
+            justify-content: center;
+        }
+        .logo-block {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-right: 24px;
+        }
+        .logo-main {
+            font-size: 2.3rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            line-height: 1;
+        }
+        .logo-main .yellow { color: #ffc72c; }
+        .logo-main .green { color: #6dc24b; }
+        .logo-sub {
+            font-size: 1.15rem;
+            font-weight: 500;
+            margin-top: 2px;
+            color: #bdbdbd;
+            letter-spacing: 0.5px;
+        }
+        .search-combo-form {
+            display: flex;
+            align-items: center;
+            background: #f7f7f7;
+            border-radius: 18px;
+            box-shadow: none;
+            max-width: 700px;
+            width: 100%;
+            padding: 0 0 0 16px;
+            gap: 0;
+        }
+        .search-combo-form svg {
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        .search-combo-form input[type="text"] {
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 1.13rem;
+            width: 100%;
+            padding: 18px 0;
+        }
+        .search-combo-form input[type="text"]:focus {
+            background: transparent;
+            border: none;
+            outline: none;
+        }
+        .search-combo-form input[name="location"],
+        .search-combo-form input[name="product"] {
+            width: 320px;           /* Make the input longer */
+            font-size: 0.97rem;     /* Make the text smaller */
+            padding: 16px 14px;     /* Keep it tall */
+            border-radius: 0px;
+            border: 1px solid #e0e0e0;
+            background: #fff;
+            transition: border 0.2s;
+        }
+        .search-combo-form button {
+            background: #6dc24b;
+            color: #fff;
+            border: none;
+            border-radius: 0px;
+            padding: 10px 28px;
+            font-weight: 600;
+            font-size: 1.13rem;
+            cursor: pointer;
+            margin-left: 6px;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(109,194,75,0.08);
+        }
+        .search-combo-form button:hover {
+            background: #5bbd3b;
+            box-shadow: 0 4px 16px rgba(109,194,75,0.13);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px;
+            margin: 30px 0;
+        }
+        .product-card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 18px 18px 16px 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: box-shadow 0.2s;
+        }
+        .product-card:hover {
+            box-shadow: 0 4px 20px rgba(50,149,55,0.13);
+        }
+        .product-image-wrap {
+            width: 120px;
+            height: 120px;
+            background: #f7f7f7;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        .product-card img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .product-name {
+            font-weight: 600;
+            font-size: 1.08rem;
+            text-align: center;
+            color: #222;
+            margin-bottom: 4px;
+            min-height: 2.4em;
+            max-height: 4.5em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            display: box;                /* Standard property for old spec */
+            -webkit-line-clamp: 3;       /* For WebKit browsers */
+            line-clamp: 3;               /* Standard property */
+            -webkit-box-orient: vertical;
+            box-orient: vertical;        /* Standard property for old spec */
+            height: 4.5em;
+            line-height: 1.5em;
+            width: 100%;
+        }
+        .product-source {
+            color: #329537;
+            font-size: 0.97rem;
+            margin-bottom: 2px;
+            font-weight: 500;
+        }
+        .product-qty {
+            color: #888;
+            font-size: 0.98rem;
+            margin-bottom: 2px;
+            min-height: 1.2em;
+        }
+        .product-price {
+            font-size: 1.13rem;
+            font-weight: 700;
+            color: #329537;
+            margin-bottom: 6px;
+        }
+        .delivery-time {
+            font-size: 1.01rem;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        .add-btn {
+            margin-top: auto;
+            background: #329537;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 28px;
+            font-size: 1.07rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .add-btn:hover {
+            background: #267a2b;
+        }
+        @media (max-width: 900px) {
+            .topbar { flex-direction: column; align-items: flex-start; gap: 12px; padding: 18px 10px 12px 10px;}
+            .search-combo-form { width: 100%; min-width: 0; }
+            .results-grid { padding: 24px 8px 0 8px; }
+        }
+        @media (max-width: 600px) {
+            .results-grid { padding: 12px 2px 0 2px; gap: 12px; }
+            .product-card img { width: 80px; height: 80px; }
+            .logo-main { font-size: 1.5rem; }
+            .logo-sub { font-size: 1rem; }
+            .product-card { min-height: 260px; max-width: 98vw; }
+        }
+    </style>
+</head>
+<body>
+    <div class="topbar" style="justify-content: center;">
+        <div class="logo-block">
+            <span class="logo-main">
+                <span class="yellow">smart</span>
+            </span>
+            <span class="logo-main">
+                <span class="transparent"></span><span class="green">cart</span>
+            </span>
+        </div>
+        <div style="flex:1; display: flex; justify-content: center;">
+            <form id="search-form" class="search-combo-form" method="POST" action="/search"
+                style="
+                    background: linear-gradient(90deg, #f7fafc 60%, #eaffea 100%);
+                    border-radius: 8px;
+                    box-shadow: 0 8px 32px rgba(109,194,75,0.10);
+                    width: 100%;
+                    max-width: 1000px; /* Make the search bar smaller */
+                    padding: 0;
+                    display: flex;
+                    align-items: center;
+                    gap: 90px; /* Reduce gap for compactness */
+                    border: none;
+                    transition: box-shadow 0.2s;
+                    position: relative;
+                    overflow: hidden;
+                    margin: 0 auto;
+                ">
+                <!-- Location Field with Icon Inside -->
+                <div style="position: relative; max-width: 340px; flex: 0 0 340px; background: #fff; border-radius: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                    <svg width="20" height="20" fill="none" stroke="#6dc24b" stroke-width="2" viewBox="0 0 24 24"
+                        style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); opacity:0.93; background: #fff; border-radius: 50%; box-shadow: 0 2px 8px rgba(109,194,75,0.10); padding: 1.5px; pointer-events: none;">
+                        <circle cx="12" cy="10" r="4"/>
+                        <path d="M12 2C7 2 3 6 3 11c0 5.25 7.5 11 9 11s9-5.75 9-11c0-5-4-9-9-9z"/>
+                    </svg>
+                    <input type="text" id="location" name="location" placeholder="Location" required
+                        style="
+                            background: #fff;
+                            border: none;
+                            border-radius: 14px;
+                            font-size: 1.05rem;
+                            padding: 6px 8px 6px 56px; /* Increased left padding for more gap */
+                            width: 100%;
+                            color: #333;
+                            font-weight: 500;
+                            letter-spacing: 0.02em;
+                            box-shadow: none;
+                            transition: box-shadow 0.2s;
+                            height: 30px;
+                        ">
+                </div>
+                <!-- Product Search Field with Icon and Button Inside -->
+                <div style="position: relative; flex: 1; min-width: 320px; max-width: 900px; display: flex; align-items: center; background: #fff; border-radius: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                    <svg width="20" height="20" fill="none" stroke="#6dc24b" stroke-width="2" viewBox="0 0 24 24"
+                        style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); opacity:0.93; background: #fff; border-radius: 50%; box-shadow: 0 2px 8px rgba(109,194,75,0.10); padding: 1.5px; pointer-events: none;">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <input type="text" id="product" name="product" placeholder='Search "milk"' required
+                        style="
+                            border: none;
+                            outline: none;
+                            background: transparent;
+                            font-size: 1.05rem;
+                            width: 100%;
+                            padding: 6px 60px 6px 56px; /* Increased left padding for more gap */
+                            color: #222;
+                            font-weight: 500;
+                            letter-spacing: 0.02em;
+                            border-radius: 14px;
+                            box-shadow: none;
+                            transition: box-shadow 0.2s;
+                            height: 30px;
+                        ">
+                    <!-- Search Button INSIDE the input field -->
+                    <button type="submit"
+                        style="
+                            position: absolute;
+                            right: 8px;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            height: 38px;
+                            background: linear-gradient(90deg,#6dc24b 60%,#ffc72c 100%);
+                            color: #fff;
+                            border: none;
+                            border-radius: 10px;
+                            padding: 0 24px;
+                            font-weight: 700;
+                            font-size: 1rem;
+                            cursor: pointer;
+                            box-shadow: 0 2px 8px rgba(109,194,75,0.13);
+                            transition: background 0.2s, box-shadow 0.2s;
+                            letter-spacing: 0.04em;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        "
+                    >
+                        <svg width="18" height="18" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24" style="margin-right:6px;">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        Search
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% if results %}
+        <div class="results-grid">
+            {% for item in results %}
+                <div class="product-card">
+                    <div class="product-image-wrap">
+                        <img src="{{ item.image if item.image else '/static/no-image.png' }}"
+                             alt="product image"
+                             onerror="this.onerror=null;this.src='/static/no-image.png';">
+                    </div>
+                    <div class="product-name" title="{{ item.name }}">{{ item.name }}</div>
+                    <div class="product-source">{{ item.source|capitalize }}</div>
+                    <div class="product-qty">{{ item.quantity if item.quantity else '' }}</div>
+                    <div class="product-price">
+                        {% if item.price %}₹{{ item.price }}{% else %}N/A{% endif %}
+                    </div>
+                    {% if item.delivery_time %}
+                    <div class="delivery-time">
+                        ⏱️ {{ item.delivery_time }}
+                        {% if item.rating %}
+                            &nbsp;|&nbsp;<span class="star">★</span>{{ item.rating }}
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% if item.product_url %}
+                        <a href="{{ item.product_url }}" target="_blank" class="add-btn" style="text-decoration:none;display:inline-block;text-align:center;">
+                            View
+                        </a>
+                    {% else %}
+                        <button class="add-btn" disabled>View</button>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>
