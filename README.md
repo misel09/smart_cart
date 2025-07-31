@@ -60,7 +60,7 @@ Navigate to `http://localhost:5000`
 </div>
 
 <div align="center">
-  <img src="screenshots/results_page.png" width="600" />
+  <img src="screenshots/result.png" width="600" />
   <br />
   <b>Comparison Results</b>
 </div>
